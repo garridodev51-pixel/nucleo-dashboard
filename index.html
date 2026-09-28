@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta http-equiv="Cache-Control" content="no-store" />
+<title>Núcleo EGON</title>
+<style>
+:root{--ink:#0c0d0c;--panel:#151613;--line:#2c2e28;--cream:#f3ede3;--gold:#c4a35a;--gold2:#e8d5a3;--ok:#7d9b7a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--cream);font-family:Inter,system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:14px 14px 70px}
+.brand{display:flex;align-items:center;gap:8px;letter-spacing:.1em;font-size:12px;color:var(--gold2);margin:6px 0 14px;font-weight:700}
+.mark{width:22px;height:22px;border-radius:6px;background:linear-gradient(135deg,var(--gold),#8a6d32);color:#111;display:grid;place-items:center;font-size:11px}
+input[name=tab]{position:absolute;opacity:0;pointer-events:none}
+.tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:18px}
+.tabs label{
+  display:block;text-align:center;padding:11px 6px;border-radius:10px;border:1px solid var(--line);
+  color:#b7b2a6;cursor:pointer;font-size:13px;background:#121310;user-select:none
+}
+.tabs label:active{animation:lux .4s ease}
+@keyframes lux{0%{box-shadow:0 0 0 0 rgba(196,163,90,0)}40%{box-shadow:0 0 24px 6px rgba(196,163,90,.6);background:var(--gold2);color:#111}100%{box-shadow:0 0 0 0 rgba(196,163,90,0)}}
+#t-dash:checked ~ .tabs label[for=t-dash],
+#t-cli:checked ~ .tabs label[for=t-cli],
+#t-dem:checked ~ .tabs label[for=t-dem],
+#t-pec:checked ~ .tabs label[for=t-pec],
+#t-cal:checked ~ .tabs label[for=t-cal],
+#t-apr:checked ~ .tabs label[for=t-apr]{
+  background:var(--gold);color:#111;border-color:var(--gold);box-shadow:0 0 16px rgba(196,163,90,.35)
+}
+.panel{display:none;animation:rise .3s ease}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#t-dash:checked ~ #p-dash,
+#t-cli:checked ~ #p-cli,
+#t-dem:checked ~ #p-dem,
+#t-pec:checked ~ #p-pec,
+#t-cal:checked ~ #p-cal,
+#t-apr:checked ~ #p-apr{display:block}
+h1{font-size:24px;margin-bottom:6px}
+.sub{color:#9a958b;font-size:13px;margin-bottom:14px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:14px 0}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+.kpi span{display:block;color:#9a958b;font-size:12px}
+.kpi b{font-size:26px;color:var(--gold2)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:14px}
+.item{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #24261f;font-size:13px}
+.chip{font-size:11px;color:var(--gold2)}
+.week,.kanban{display:grid;gap:8px;margin-top:12px}
+.week{grid-template-columns:repeat(7,1fr)}
+.kanban{grid-template-columns:repeat(5,1fr)}
+.day,.kcol{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px;min-height:88px}
+.evt,.ticket{background:#1e1c16;border:1px solid #3d3420;color:var(--gold2);font-size:12px;padding:7px;border-radius:8px;margin-top:6px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ph{height:150px;background:#22241e;border-radius:12px;display:grid;place-items:center;color:#7a776e;margin:12px 0}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.ok{background:var(--ok);color:#0c140e;border:0;border-radius:10px;padding:10px;font-weight:700}
+.no{background:transparent;color:var(--cream);border:1px solid var(--line);border-radius:10px;padding:10px}
+@media(max-width:800px){
+  .tabs{grid-template-columns:repeat(3,1fr)}
+  .kpis,.cols,.week,.kanban,.grid3{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand"><span class="mark">E</span> EGON · NÚCLEO</div>
+
+  <input type="radio" name="tab" id="t-dash" checked>
+  <input type="radio" name="tab" id="t-cli">
+  <input type="radio" name="tab" id="t-dem">
+  <input type="radio" name="tab" id="t-pec">
+  <input type="radio" name="tab" id="t-cal">
+  <input type="radio" name="tab" id="t-apr">
+
+  <div class="tabs">
+    <label for="t-dash">Dashboard</label>
+    <label for="t-cli">Clientes</label>
+    <label for="t-dem">Demandas</label>
+    <label for="t-pec">Peças</label>
+    <label for="t-cal">Calendário</label>
+    <label for="t-apr">Aprovação</label>
+  </div>
+
+  <section class="panel" id="p-dash">
+    <h1>Dashboard</h1>
+    <p class="sub">Operação do dia.</p>
+    <div class="kpis">
+      <div class="kpi"><span>Clientes</span><b>3</b></div>
+      <div class="kpi"><span>Demandas</span><b>4</b></div>
+      <div class="kpi"><span>Na aprovação</span><b>1</b></div>
+      <div class="kpi"><span>Peças</span><b>2</b></div>
+    </div>
+    <div class="cols">
+      <div class="box">
+        <b>Fila de aprovação</b>
+        <div class="item"><span>Stories almoço</span><span class="chip">Casa da Maré</span></div>
+        <div class="item"><span>Post institucional</span><span class="chip">PVNET</span></div>
+      </div>
+      <div class="box">
+        <b>Demandas em curso</b>
+        <div class="item"><span>Reels semana 39</span><span class="chip">Produção</span></div>
+        <div class="item"><span>Cardápio stories</span><span class="chip">Revisão</span></div>
+        <div class="item"><span>Campanha unhas</span><span class="chip">Briefing</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-cli">
+    <h1>Clientes</h1>
+    <p class="sub">Contas ativas da agência.</p>
+    <div class="grid3">
+      <div class="box"><b>Casa da Maré</b><p class="sub">@casadamare · 2 abertas</p></div>
+      <div class="box"><b>Estúdio Luna</b><p class="sub">@estudioluna · 1 aberta</p></div>
+      <div class="box"><b>PVNET</b><p class="sub">@pvnet · 1 aberta</p></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-dem">
+    <h1>Demandas</h1>
+    <p class="sub">Kanban da operação.</p>
+    <div class="kanban">
+      <div class="kcol"><b>Briefing</b><div class="ticket">Campanha unhas<br>Estúdio Luna</div></div>
+      <div class="kcol"><b>Produção</b><div class="ticket">Reels semana 39<br>Casa da Maré</div></div>
+      <div class="kcol"><b>Revisão</b><div class="ticket">Cardápio stories<br>Casa da Maré</div></div>
+      <div class="kcol"><b>Aprovado</b><div class="ticket">Nota institucional<br>PVNET</div></div>
+      <div class="kcol"><b>Publicado</b><div class="ticket">Carrossel fotos<br>PVNET</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-pec">
+    <h1>Peças</h1>
+    <p class="sub">Conteúdo no pipeline.</p>
+    <div class="box"><b>Stories almoço</b><p class="sub">Casa da Maré · waiting_approval</p><p>Almoço de sábado na Casa da Maré.</p></div>
+    <div class="box" style="margin-top:10px"><b>Reels corte 1</b><p class="sub">Casa da Maré · draft</p><p>Bastidores da cozinha.</p></div>
+  </section>
+
+  <section class="panel" id="p-cal">
+    <h1>Calendário</h1>
+    <p class="sub">Semana.</p>
+    <div class="week">
+      <div class="day"><b>26</b><div class="evt">Nota PVNET</div></div>
+      <div class="day"><b>27</b><div class="evt">Stories almoço</div></div>
+      <div class="day"><b>28</b><div class="evt">Reels 39</div></div>
+      <div class="day"><b>29</b></div>
+      <div class="day"><b>30</b></div>
+      <div class="day"><b>01</b></div>
+      <div class="day"><b>02</b><div class="evt">Unhas Luna</div></div>
+    </div>
+  </section>
+
+  <section class="panel" id="p-apr">
+    <h1>Aprovação</h1>
+    <p class="sub">O que o cliente vê.</p>
+    <div class="box" style="max-width:420px">
+      <p class="sub">Prévia do post · Casa da Maré</p>
+      <div class="ph">Imagem vertical</div>
+      <p>Almoço de sábado na Casa da Maré. Cardápio novo no link da bio.</p>
+      <div class="btns"><button class="ok">Aprovar</button><button class="no">Pedir ajuste</button></div>
+    </div>
+  </section>
+</div>
+</body>
+</html>
